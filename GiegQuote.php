@@ -209,7 +209,7 @@ class GiegQuote extends Exception {
 	}
 	
 	/*
-	---- Curl
+	---- cURL
 	*/
 	private static $curl = null;
 	private static $response = null;
@@ -247,20 +247,4 @@ class GiegQuote extends Exception {
 		self::$curl_options = array();
 		}
 	}
-}
-
-class GiegQuoteException extends Exception {
-  public $url;
-  
-  function __construct($response) {
-    $this->url = $response->url;
-    parent::__construct($response->message);
-  }
-    
-  public function __toString() {
-  	$style = 'style="font-family: Helvetica;"';
-  	$info =  "<p $style>Something went wrong with the last request to the Quote API:</p>";
-  	$info .= "<h2 $style>Details</h2><strong $style>Message</strong>: " . $this->message . '<br />';
-    return $info;
-  }  
 }
