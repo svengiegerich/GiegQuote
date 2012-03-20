@@ -1,6 +1,6 @@
 #GiegQuote
 ##About
-GiegQuote is an API wrapper for the [Quote.fm API](https://quote.fm/labs)
+**GiegQuote is an API wrapper for the [Quote.fm API](https://quote.fm/labs)**
 
 ##Getting started
 It´s pretty simple:
@@ -12,6 +12,8 @@ It´s pretty simple:
 	
 	//Example
 	$giegQuote->getCategories();
+	
+**or** have a look at my [blog post](http://gieglabs.net/index.php/blog/quote_fm-api)
 	
 ##Available Methods
 Look at the [wiki](https://github.com/svengiegerich/GiegQuote/wiki) for list of methods with their documentation.
