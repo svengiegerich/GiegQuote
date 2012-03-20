@@ -12,7 +12,7 @@ if (isset($_GET['username'])) {
 }
 $i = 0;
 
-include 'GiegQuote.php';
+include '../../GiegQuote.php';
 $quote = new GiegQuote();
 $recommendationList = $quote->getRecommendationListByUser($username);
 ?>
