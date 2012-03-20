@@ -14,7 +14,7 @@ It´s pretty simple:
 	$giegQuote->getCategories();
 	
 ##Available Methods
-Look at the [wiki]() for list of methods with their documentation.
+Look at the [wiki](https://github.com/svengiegerich/GiegQuote/wiki) for list of methods with their documentation.
 	
 ##Requirements
 The server has to support 'CURL PHP extension', the 'JSON PHP extension' and all data should be encoded with UTF-8.
