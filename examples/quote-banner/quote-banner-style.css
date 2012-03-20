@@ -1,0 +1,80 @@
+body {
+	width: 600px;
+	margin: auto;
+}
+
+#quote-banner {
+	color: #171717;
+}
+
+#quote-banner #quote-banner-header {
+	padding: 5px;
+}
+
+#quote-banner #quote-banner-header a {
+	text-decoration: none;
+	color: #171717;
+}
+
+#quote-banner #quote-banner-header a:hover {
+	border-bottom: 2px solid #171717;
+}
+
+#quote-banner #quote-banner-header h3 {
+	font-size: 18px;
+	font-weight: normal;
+}
+
+#quote-banner #quote-banner-header img {
+	float: left;
+	display: block;
+	padding: 5px;
+}
+
+.quote {
+	
+}
+
+.quote-content {
+	background: #F72E2A;
+	font-size: 30px;
+	line-height: 50px;
+	font-weight: 400;
+	font-style: italic;
+	color: white;
+}
+
+.quote-content p {
+	padding: 32px 32px 32px 32px;
+	letter-spacing: 0.02em;
+	margin-top: 0px;
+}
+
+.quote .triangle {
+	border-color: #F72E2A transparent transparent transparent;
+	border-style: solid;
+	border-width: 20px;
+	display: block;
+	height: 0;
+	width: 0;
+	display: block;
+	margin-top: -30;
+	margin-right: 20px;
+	float: right;
+}
+
+.quote .quote-title {
+	height: auto;
+	font-size: 15px;
+	font-style: normal;
+	line-height: 20px;
+}
+
+.quote .quote-title p {
+	color: #F72E2A;
+	border-bottom: 1px solid #F72E2A;
+	text-align: right;
+	float: right;
+	margin-top: -7px;
+	margin-right: -60px;
+}
