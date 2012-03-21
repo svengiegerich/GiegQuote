@@ -27,7 +27,7 @@ if (!function_exists('json_decode')) {
 	throw new Exception('This API needs the JSON PHP extension.');
 }
 
-class GiegQuote extends Exception {
+class GiegQuote {
 	const VERSION = '0.1';
 	const API_BASE = 'https://quote.fm/api/';
 	
@@ -238,8 +238,8 @@ class GiegQuote extends Exception {
 			return false;
 		}
 		
-		if (isset(self::$response->code) ) {
-			// throw the error
+		if (isset(self::$response->code)) {
+			throw new GiegQuoteException(self::$response);
 		}
 	    
 	  return self::$response;
@@ -257,5 +257,14 @@ class GiegQuote extends Exception {
 		// reset options
 		self::$curl_options = array();
 		}
+	}
+}
+
+class GiegQuoteException extends Exception { 
+	public function __toString() {
+		$info = '<p>Something went wrong with the last request to the Quote.fm API!</p>';
+		$info .= '<p>Message: ' . $this->message . '</p>';
+		$info .= '<p>Code: ' . $this->code . '</p>');
+		return $info;
 	}
 }
