@@ -23,9 +23,6 @@ GiegQuote: Quote.fm API Wrapper
                       
 *****************************************************************************************/
 
-if (!function_exists('curl_init')) {
-	throw new Exception('This API needs the CURL PHP extension.');
-}
 if (!function_exists('json_decode')) {
 	throw new Exception('This API needs the JSON PHP extension.');
 }
@@ -227,17 +224,21 @@ class GiegQuote extends Exception {
 	private static $curl_options = array();
 	
 	public static function request($url) {
-		self::$curl = curl_init($url);
-		self::setOptions();
-	    
-		self::$response = json_decode(curl_exec(self::$curl));
-	 	curl_close(self::$curl);
-	    
+	 	if (!function_exists('curl_init')) {
+	 		self::$response = json_decode(file_get_contents($url));
+	 	} else {
+	  	self::$curl = curl_init($url);
+	  	self::setOptions();
+	  	  
+	  	self::$response = json_decode(curl_exec(self::$curl));
+	  	curl_close(self::$curl);
+	  }
+	  
 	 	if(empty(self::$response)) {
 			return false;
 		}
 		
-		if (isset(self::$response->code)) {
+		if (isset(self::$response->code) ) {
 			// throw the error
 		}
 	    
@@ -245,7 +246,7 @@ class GiegQuote extends Exception {
 	}
 	  
 	private function setOptions() {
-		if(!empty(self::$curl) ) {
+		if(!empty(self::$curl)) {
 			curl_setopt_array(self::$curl, array(
 				CURLOPT_RETURNTRANSFER => true,
 				CURLOPT_USERAGENT => 'GiegQuote | Quote.FM API PHP Wrapper',
