@@ -8,8 +8,18 @@
       \ \____/ \ \_\\ \____\\ \____ \\ \___\_\\ \____/\ \____/ \ \__\\ \____\
        \/___/   \/_/ \/____/ \/___L\ \\/__//_/ \/___/  \/___/   \/__/ \/____/
                                /\____/                                       
-                               \_/__/                                        
-                                       
+                               \_/__/                                                     
+
+GiegQuote: Quote.fm API Wrapper
+ * Copyright 2012, Sven Giegerich, GiegLabs, www.gieglabs.net
+ * Licensed under the MIT License.
+ * Redistributions of files must retain the above copyright notice.
+ 
+ * @author Sven Giegerich (sven@gieglabs.net) at GiegLabs (www.gieglabs.net)
+ * @version 0.1
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ 
+ * Function Reference: https://github.com/svengiegerich/GiegQuote/wiki
                       
 *****************************************************************************************/
 
@@ -238,8 +248,8 @@ class GiegQuote extends Exception {
 		if(!empty(self::$curl) ) {
 			curl_setopt_array(self::$curl, array(
 				CURLOPT_RETURNTRANSFER => true,
-				CURLOPT_USERAGENT => 'Quote.FM API PHP Wrapper',
-				CURLOPT_TIMEOUT        => 60,
+				CURLOPT_USERAGENT => 'GiegQuote | Quote.FM API PHP Wrapper',
+				CURLOPT_TIMEOUT => 60,
 				CURLOPT_CONNECTTIMEOUT => 10
 		) + self::$curl_options);
 			          

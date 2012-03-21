@@ -6,7 +6,6 @@
 It´s pretty simple:
 	
 	<?php
-	
 	require('GiegQuote.php');
 	$giegQuote = new GiegQuote();
 	
@@ -20,3 +19,6 @@ Look at the [wiki](https://github.com/svengiegerich/GiegQuote/wiki) for list of 
 	
 ##Requirements
 The server has to support 'CURL PHP extension', the 'JSON PHP extension' and all data should be encoded with UTF-8.
+
+#### Copyright
+2012, Sven Giegerich, GiegLabs, www.gieglabs.net Licensed under the MIT License. Redistributions of files must retain the above copyright notice.
