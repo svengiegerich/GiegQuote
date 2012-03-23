@@ -169,7 +169,7 @@ class GiegQuote {
 	public function userListFollowings($username, $page = 0) {
 		$userListFollowingsUrl = self::API_BASE . 'user/listFollowings/?username=' . $username;
 		$userListFollowingsUrl .= GiegQuote::appendPage($page);
-		return GiegQuote::request($userListFollowersUrl);
+		return GiegQuote::request($userListFollowingsUrl);
 	}
 	
 	/*
@@ -236,11 +236,13 @@ class GiegQuote {
 	  }
 	  
 	 	if(empty(self::$response)) {
-			return false;
+			$e = new GiegQuoteException('Something went wrong with the last request to the Quote.fm API! URL: ' . $url);
+			throw $e;
+			
 		}
 		
 		if (isset(self::$response->code)) {
-			$e = new GiegQuoteException('Something went wrong with the last request to the Quote.fm API! Message: ' . self::$response->message . ' Code: ' . self::$response->code . '. URL: ' . $url);
+			$e = new GiegQuoteException('Something went wrong with the last request to the Quote.fm API! Message: ' . self::$response->message . '. URL: ' . $url, self::$response->code);
 			throw $e;
 		}
 	    
