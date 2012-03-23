@@ -36,7 +36,7 @@ class GiegQuote {
 	*/
 	public function getRecommendation($id) {
 		$recommendationUrl = self::API_BASE . 'recommendation/get/?id=' . $id;
-		return $this->request($recommendationUrl);
+		return GiegQuote::request($recommendationUrl);
 	}
 	
 	public  function getRecommendationList($param) {
@@ -50,14 +50,14 @@ class GiegQuote {
 	
 	public function getRecommendationListByUser($username, $page = 0) {
 		$recommendationListByUserUrl = self::API_BASE . 'recommendation/listByUser/?username=' . $username;
-		$recommendationListByUserUrl .= $this->appendPage($page);
-		return $this->request($recommendationListByUserUrl);
+		$recommendationListByUserUrl .= GiegQuote::appendPage($page);
+		return GiegQuote::request($recommendationListByUserUrl);
 	}
 	
 	public function getRecommendationListByArticle($articleId, $page = 0) {
 		$recommendationListByArticleUrl = self::API_BASE . 'recommendation/listByArticle/?id=' . $articleId;
-		$articleListUrl .= $this->appendPage($page);
-		return $this->request($recommendationListByArticleUrl);
+		$articleListUrl .= GiegQuote::appendPage($page);
+		return GiegQuote::request($recommendationListByArticleUrl);
 	}
 	
 	/*
@@ -74,17 +74,18 @@ class GiegQuote {
 	
 	public function getArticleById($id) {
 		$articleUrl = self::API_BASE . '/article/get?id=' . $id;
-		return $this->request($articleUrl);
+		return GiegQuote::request($articleUrl);
 	}
 	
 	public function getArticleByUrl($url) {
 		$articleUrl = self::API_BASE . '/article/get?url=' . $url;
-		return $this->request($articleUrl);
+		return GiegQuote::request($articleUrl);
 	}
 	
 	public function getArticleListByPage($pageId, $page = 0) {
-		$articleListByPageUrl = self::API_BASE . 'article/listbyPage';
-		return $this->request($articleListByPageUrl);
+		$articleListByPageUrl = self::API_BASE . 'article/listbyPage?id=' . $pageId;
+		$articleListByPageUrl .= GiegQuote::appendPage($page);
+		return GiegQuote::request($articleListByPageUrl);
 	}
 	
 	public function getArticleListByCategories($categoryIds, $language = 'any', $scope = 'time', $page = 0) {
@@ -98,7 +99,7 @@ class GiegQuote {
 			$articleListUrl .= $categoryIds;
 		}
 		
-		$articleListUrl .= $this->appendPage($page);
+		$articleListUrl .= GiegQuote::appendPage($page);
 		
 		if ($language != 'any' && ($language == 'de' || $language == 'en')) {
 			$articleListUrl .= '&language=' . $language;
@@ -106,7 +107,7 @@ class GiegQuote {
 		if ($scope == 'time' || $scope == 'popular') {
 			$articleListUrl .= '&scope=' . $scope;
 		}
-		return $this->request($articleListUrl);
+		return GiegQuote::request($articleListUrl);
 	}
 	
 	/*
@@ -123,18 +124,18 @@ class GiegQuote {
 	
 	public function getPageByDomain($domain) {
 		$pageUrl = self::API_BASE . 'page/get/?domain=' . $domain;
-		return $this->request($pageUrl);
+		return GiegQuote::request($pageUrl);
 	}
 	
 	public function getPageById($pageId) {
-		$pageUrl = self::API_BASE . 'page/get/?id=' . $domain;
-		return $this->request($pageUrl);
+		$pageUrl = self::API_BASE . 'page/get/?id=' . $pageId;
+		return GiegQuote::request($pageUrl);
 	}
 	
 	public function getPageList($page = 0) {
 		$pageListUrl = self::API_BASE . 'page/list/?';
-		$pageListUrl .= $this->appendPage($page);
-		return $this->request($pageListUrl);
+		$pageListUrl .= GiegQuote::appendPage($page);
+		return GiegQuote::request($pageListUrl);
 	}
 	
 	/*
@@ -151,24 +152,24 @@ class GiegQuote {
 	
 	public function getUserByName($userName) {
 		$url = self::API_BASE . 'user/get/?username=' . $userName;
-		return $this->request($url);
+		return GiegQuote::request($url);
 	}
 	
 	public function getUserById($userId) {
 		$url = self::API_BASE . 'user/get/?id=' . $userId;
-		return $this->request($url);
+		return GiegQuote::request($url);
 	}
 	
 	public function userListFollowers($username, $page = 0) {
 		$userListFollowersUrl = self::API_BASE . 'user/listFollowers/?username=' . $username;
-		$userListFollowersUrl .= $this->appendPage($page);
-		return $this->request($userListFollowersUrl);
+		$userListFollowersUrl .= GiegQuote::appendPage($page);
+		return GiegQuote::request($userListFollowersUrl);
 	}
 	
 	public function userListFollowings($username, $page = 0) {
 		$userListFollowingsUrl = self::API_BASE . 'user/listFollowings/?username=' . $username;
-		$userListFollowingsUrl .= $this->appendPage($page);
-		return $this->request($userListFollowersUrl);
+		$userListFollowingsUrl .= GiegQuote::appendPage($page);
+		return GiegQuote::request($userListFollowersUrl);
 	}
 	
 	/*
@@ -176,7 +177,7 @@ class GiegQuote {
 	*/
 	public function getCategories() {
 		$categoriesUrl = self::API_BASE . 'category/list';
-		return $this->request($categoriesUrl);
+		return GiegQuote::request($categoriesUrl);
 	}
 	
 	public function getCategoryByName($categoryName) {
@@ -239,7 +240,8 @@ class GiegQuote {
 		}
 		
 		if (isset(self::$response->code)) {
-			throw new GiegQuoteException(self::$response);
+			$e = new GiegQuoteException('Something went wrong with the last request to the Quote.fm API! Message: ' . self::$response->message . ' Code: ' . self::$response->code . '. URL: ' . $url);
+			throw $e;
 		}
 	    
 	  return self::$response;
@@ -260,11 +262,4 @@ class GiegQuote {
 	}
 }
 
-class GiegQuoteException extends Exception { 
-	public function __toString() {
-		$info = '<p>Something went wrong with the last request to the Quote.fm API!</p>';
-		$info .= '<p>Message: ' . $this->message . '</p>';
-		$info .= '<p>Code: ' . $this->code . '</p>');
-		return $info;
-	}
-}
+class GiegQuoteException extends Exception { }
