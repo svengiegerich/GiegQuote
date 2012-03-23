@@ -1,12 +1,13 @@
 <?php
-
-require('../GiegQuote.php');
+require_once('../GiegQuote.php');
 
 class BaseTest {
 	static $success = 0;
 	static $error = 0;
+	static $exceptions = array();
 	
-	private function error() {
+	private function error($e) {
+		self::$exceptions[] = $e;
 		return self::$error++;
 	}
 	
@@ -22,7 +23,7 @@ class BaseTest {
 			GiegQuote::getRecommendation(900);
 			BaseTest::success();
 		} catch (Exception $e) {
-			BaseTest::error();
+			BaseTest::error($e);
 		}
 	}
 	
@@ -31,7 +32,7 @@ class BaseTest {
 			GiegQuote::getRecommendationListByUser('uarrr', 0);
 			BaseTest::success();
 		} catch (Exception $e) {
-			BaseTest::error();
+			BaseTest::error($e);
 		}
 	}
 	
@@ -40,7 +41,7 @@ class BaseTest {
 			GiegQuote::getRecommendationListByArticle(123, 0);
 			BaseTest::success();
 		} catch (Exception $e) {
-			BaseTest::error();
+			BaseTest::error($e);
 		}
 	}
 	
@@ -52,7 +53,7 @@ class BaseTest {
 			GiegQuote::getArticleById(2111);
 			BaseTest::success();
 		} catch (Exception $e) {
-			BaseTest::error();
+			BaseTest::error($e);
 		}
 	}
 	
@@ -61,7 +62,7 @@ class BaseTest {
 			GiegQuote::getArticleByUrl('http://uarrr.org/2012/03/21/was-gegen-einen-connect-via-facebook-und-twitter-spricht/');
 			BaseTest::success();
 		} catch (Exception $e) {
-			BaseTest::error();
+			BaseTest::error($e);
 		}
 	}
 	
@@ -70,7 +71,7 @@ class BaseTest {
 			GiegQuote::getArticleListByPage(23, 0);
 			BaseTest::success();
 		} catch (Exception $e) {
-			BaseTest::error();
+			BaseTest::error($e);
 		}
 	}
 	
@@ -79,7 +80,7 @@ class BaseTest {
 			GiegQuote::getArticleListByCategories(1, 'de', 'time', 0);
 			BaseTest::success();
 		} catch (Exception $e) {
-			BaseTest::error();
+			BaseTest::error($e);
 		}
 	}
 	
@@ -91,7 +92,7 @@ class BaseTest {
 			GiegQuote::getPageByDomain('zeit.de');
 			BaseTest::success();
 		} catch (Exception $e) {
-			BaseTest::error();
+			BaseTest::error($e);
 		}
 	}
 	
@@ -100,7 +101,7 @@ class BaseTest {
 			GiegQuote::getPageById(1234);
 			BaseTest::success();
 		} catch (Exception $e) {
-			BaseTest::error();
+			BaseTest::error($e);
 		}
 	}
 	
@@ -109,7 +110,7 @@ class BaseTest {
 			GiegQuote::getPageList(0);
 			BaseTest::success();
 		} catch (Exception $e) {
-			BaseTest::error();
+			BaseTest::error($e);
 		}
 	}
 	
@@ -121,7 +122,7 @@ class BaseTest {
 			GiegQuote::getUserByName('uarrr');
 			BaseTest::success();
 		} catch (Exception $e) {
-			BaseTest::error();
+			BaseTest::error($e);
 		}
 	}
 	
@@ -130,7 +131,7 @@ class BaseTest {
 			GiegQuote::GetUserById(1);
 			BaseTest::success();
 		} catch (Exception $e) {
-			BaseTest::error();
+			BaseTest::error($e);
 		}
 	}
 	
@@ -139,16 +140,16 @@ class BaseTest {
 			GiegQuote::UserListFollowers('pwaldhauer', 0);
 			BaseTest::success();
 		} catch (Exception $e) {
-			BaseTest::error();
+			BaseTest::error($e);
 		}
 	}
 	
 	public function testUserListFollowings() {
 		try {
-			GiegQuote::userListFollowings('martinwolf', 0);
+			GiegQuote::userListFollowings('uarrr', 0);
 			BaseTest::success();
 		} catch (Exception $e) {
-			BaseTest::error();
+			BaseTest::error($e);
 		}
 	}
 	
@@ -160,7 +161,7 @@ class BaseTest {
 			GiegQuote::getCategories();
 			BaseTest::success();
 		} catch (Exception $e) {
-			BaseTest::error();
+			BaseTest::error($e);
 		}
 	}
 }
@@ -242,6 +243,9 @@ foreach ($class_methods as $method_name) {
 		<?php if (BaseTest::$error > 0): ?>
 			<div class="alert alert-error">
 				<strong>Oh snap!</strong> <?php echo BaseTest::$error ?> error[s] occurred.
+				<?php foreach (BaseTest::$exceptions as $exception): ?>
+					<?php print_r($exception->getMessage()) ?>
+				<?php endforeach; ?>
 			</div>
 		<?php else: ?>
 			<div class="alert alert-success">
