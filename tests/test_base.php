@@ -244,7 +244,9 @@ foreach ($class_methods as $method_name) {
 			<div class="alert alert-error">
 				<strong>Oh snap!</strong> <?php echo BaseTest::$error ?> error[s] occurred.
 				<?php foreach (BaseTest::$exceptions as $exception): ?>
-					<?php print_r($exception->getMessage()) ?>
+					<pre>
+						<?php print_r($exception->getMessage()) ?>
+					</pre>
 				<?php endforeach; ?>
 			</div>
 		<?php else: ?>
