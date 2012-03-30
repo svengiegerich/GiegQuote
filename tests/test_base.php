@@ -18,27 +18,27 @@ class BaseTest {
 	/*
 	---- Recommendation
 	*/
-	public function testGetRecommendation() {
+	public function testGetRecommendation($id = 900) {
 		try {
-			GiegQuote::getRecommendation(900);
+			GiegQuote::getRecommendation($id);
 			BaseTest::success();
 		} catch (Exception $e) {
 			BaseTest::error($e);
 		}
 	}
 	
-	public function testGetRecommendationListByUser() {
+	public function testGetRecommendationListByUser($username = 'uarrr', $scope = 'time', $page = 0, $pageSize = 2) {
 		try {
-			GiegQuote::getRecommendationListByUser('uarrr', 0);
+			GiegQuote::getRecommendationListByUser($username, $scope, $page, $pageSize);
 			BaseTest::success();
 		} catch (Exception $e) {
 			BaseTest::error($e);
 		}
 	}
 	
-	public function testGetRecommendationListByArticle() {
+	public function testGetRecommendationListByArticle($articleId = 123, $scope = 'time', $page = 0, $pageSize = 2) {
 		try {
-			GiegQuote::getRecommendationListByArticle(123, 0);
+			GiegQuote::getRecommendationListByArticle($articleId, $scope, $page, $pageSize);
 			BaseTest::success();
 		} catch (Exception $e) {
 			BaseTest::error($e);
@@ -48,36 +48,36 @@ class BaseTest {
 	/*
 	---- Article
 	*/
-	public function testGetArticleById() {
+	public function testGetArticleById($id = 2111) {
 		try {
-			GiegQuote::getArticleById(2111);
+			GiegQuote::getArticleById($id);
 			BaseTest::success();
 		} catch (Exception $e) {
 			BaseTest::error($e);
 		}
 	}
 	
-	public function testGetArticleByUrl() {
+	public function testGetArticleByUrl($url = 'http://uarrr.org/2012/03/21/was-gegen-einen-connect-via-facebook-und-twitter-spricht/') {
 		try {
-			GiegQuote::getArticleByUrl('http://uarrr.org/2012/03/21/was-gegen-einen-connect-via-facebook-und-twitter-spricht/');
+			GiegQuote::getArticleByUrl($url);
 			BaseTest::success();
 		} catch (Exception $e) {
 			BaseTest::error($e);
 		}
 	}
 	
-	public function testGetArticleListByPage() {
+	public function testGetArticleListByPage($pageId = 23, $scope = 'time', $page = 0, $pageSize = 2) {
 		try {
-			GiegQuote::getArticleListByPage(23, 0);
+			GiegQuote::getArticleListByPage($pageId, $scope, $page, $pageSize);
 			BaseTest::success();
 		} catch (Exception $e) {
 			BaseTest::error($e);
 		}
 	}
 	
-	public function testGetArticleListByCategories() {
+	public function testGetArticleListByCategories($categoryIds = 1, $language = 'any', $scope = 'time', $page = 0, $pageSize = 2) {
 		try {
-			GiegQuote::getArticleListByCategories(1, 'de', 'time', 0);
+			GiegQuote::getArticleListByCategories($categoryIds, $language, $scope, $page, $pageSize);
 			BaseTest::success();
 		} catch (Exception $e) {
 			BaseTest::error($e);
@@ -87,27 +87,27 @@ class BaseTest {
 	/*
 	---- Page
 	*/
-	public function testGetPageByDomain() {
+	public function testGetPageByDomain($domain = 'zeit.de') {
 		try {
-			GiegQuote::getPageByDomain('zeit.de');
+			GiegQuote::getPageByDomain($domain);
 			BaseTest::success();
 		} catch (Exception $e) {
 			BaseTest::error($e);
 		}
 	}
 	
-	public function testGetPageById() {
+	public function testGetPageById($id = 1234) {
 		try {
-			GiegQuote::getPageById(1234);
+			GiegQuote::getPageById($id);
 			BaseTest::success();
 		} catch (Exception $e) {
 			BaseTest::error($e);
 		}
 	}
 	
-	public function testGetPageList() {
+	public function testGetPageList($page = 0) {
 		try {
-			GiegQuote::getPageList(0);
+			GiegQuote::getPageList($page);
 			BaseTest::success();
 		} catch (Exception $e) {
 			BaseTest::error($e);
@@ -117,36 +117,36 @@ class BaseTest {
 	/*
 	---- User
 	*/
-	public function testGetUserByName() {
+	public function testGetUserByName($username = 'uarrr') {
 		try {
-			GiegQuote::getUserByName('uarrr');
+			GiegQuote::getUserByName($username);
 			BaseTest::success();
 		} catch (Exception $e) {
 			BaseTest::error($e);
 		}
 	}
 	
-	public function testGetUserById() {
+	public function testGetUserById($id = 1) {
 		try {
-			GiegQuote::GetUserById(1);
+			GiegQuote::getUserById($id);
 			BaseTest::success();
 		} catch (Exception $e) {
 			BaseTest::error($e);
 		}
 	}
 	
-	public function testUserListFollowers() {
+	public function testUserListFollowers($username = 'pwaldhauer', $page = 0, $pageSize = 2) {
 		try {
-			GiegQuote::UserListFollowers('pwaldhauer', 0);
+			GiegQuote::userListFollowers($username, $page, $pageSize);
 			BaseTest::success();
 		} catch (Exception $e) {
 			BaseTest::error($e);
 		}
 	}
 	
-	public function testUserListFollowings() {
+	public function testUserListFollowings($username = 'uarrr', $page = 0, $pageSize = 2) {
 		try {
-			GiegQuote::userListFollowings('uarrr', 0);
+			GiegQuote::userListFollowings($username, $page, $pageSize);
 			BaseTest::success();
 		} catch (Exception $e) {
 			BaseTest::error($e);
@@ -244,7 +244,9 @@ foreach ($class_methods as $method_name) {
 			<div class="alert alert-error">
 				<strong>Oh snap!</strong> <?php echo BaseTest::$error ?> error[s] occurred.
 				<?php foreach (BaseTest::$exceptions as $exception): ?>
-					<?php print_r($exception->getMessage()) ?>
+					<pre>
+						<?php print_r($exception->getMessage()) ?>
+					</pre>
 				<?php endforeach; ?>
 			</div>
 		<?php else: ?>
