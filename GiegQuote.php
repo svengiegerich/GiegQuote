@@ -2,22 +2,17 @@
 /*****************************************************************************************
     ____                           _____                     __              
    /\  _`\    __                  /\  __`\                  /\ \__           
-   \ \ \L\_\ /\_\      __      __ \ \ \/\ \   __  __    ___ \ \ ,_\     __   
-    \ \ \L_L \/\ \   /'__`\  /'_ `\\ \ \ \ \ /\ \/\ \  / __`\\ \ \/   /'__`\ 
-     \ \ \/, \\ \ \ /\  __/ /\ \L\ \\ \ \\'\\\ \ \_\ \/\ \L\ \\ \ \_ /\  __/ 
+   \ \ \ \_\ /\_\      __      __ \ \ \/\ \   __  __    ___ \ \ ,_\     __   
+    \ \ \ ___\/\ \   /'__`\  /'_ `\\ \ \ \ \ /\ \/\ \  / __`\\ \ \/   /'__`\ 
+     \ \ \/, \\ \ \ /\  __/ /\ \_\ \\ \ \\'\\\ \ \_\ \/\ \_\ \\ \ \_ /\  __/ 
       \ \____/ \ \_\\ \____\\ \____ \\ \___\_\\ \____/\ \____/ \ \__\\ \____\
-       \/___/   \/_/ \/____/ \/___L\ \\/__//_/ \/___/  \/___/   \/__/ \/____/
+       \/___/   \/_/ \/____/ \/____\ \\/__//_/ \/___/  \/___/   \/__/ \/____/
                                /\____/                                       
                                \_/__/                                                     
 
 GiegQuote: Quote.fm API Wrapper
- * Copyright 2012, Sven Giegerich, GiegLabs, www.gieglabs.net
- * Licensed under the MIT License.
- * Redistributions of files must retain the above copyright notice.
- 
  * @author Sven Giegerich (sven@gieglabs.net) at GiegLabs (www.gieglabs.net)
  * @version 0.1
- * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  
  * Function Reference: https://github.com/svengiegerich/GiegQuote/wiki
                       
@@ -28,7 +23,7 @@ if (!function_exists('json_decode')) {
 }
 
 class GiegQuote {
-	const VERSION = '0.1';
+	const VERSION = '0.6';
 	const API_BASE = 'https://quote.fm/api/';
 	
 	/*
@@ -48,15 +43,19 @@ class GiegQuote {
 		return false;
 	}
 	
-	public function getRecommendationListByUser($username, $page = 0) {
+	public function getRecommendationListByUser($username, $scope = 'time', $page = 0, $pageSize = false) {
 		$recommendationListByUserUrl = self::API_BASE . 'recommendation/listByUser/?username=' . $username;
 		$recommendationListByUserUrl .= GiegQuote::appendPage($page);
+		$recommendationListByUserUrl .= GiegQuote::appendScope($scope);
+		$recommendationListByUserUrl .= GiegQuote::appendPageSize($pageSize);
 		return GiegQuote::request($recommendationListByUserUrl);
 	}
 	
-	public function getRecommendationListByArticle($articleId, $page = 0) {
+	public function getRecommendationListByArticle($articleId, $scope = 'time', $page = 0, $pageSize = false) {
 		$recommendationListByArticleUrl = self::API_BASE . 'recommendation/listByArticle/?id=' . $articleId;
 		$articleListUrl .= GiegQuote::appendPage($page);
+		$articleListUrl .= GiegQuote::appendScope($scope);
+		$articleListUrl .= GiegQuote::appendPageSize($pageSize);
 		return GiegQuote::request($recommendationListByArticleUrl);
 	}
 	
@@ -82,13 +81,15 @@ class GiegQuote {
 		return GiegQuote::request($articleUrl);
 	}
 	
-	public function getArticleListByPage($pageId, $page = 0) {
+	public function getArticleListByPage($pageId, $scope = 'time', $page = 0, $pageSize = false) {
 		$articleListByPageUrl = self::API_BASE . 'article/listbyPage?id=' . $pageId;
 		$articleListByPageUrl .= GiegQuote::appendPage($page);
+		$articleListByPageUrl .= GiegQuote::appendScope($scope);
+		$articleListByPageUrl .= GiegQuote::appendPageSize($pageSize);
 		return GiegQuote::request($articleListByPageUrl);
 	}
 	
-	public function getArticleListByCategories($categoryIds, $language = 'any', $scope = 'time', $page = 0) {
+	public function getArticleListByCategories($categoryIds, $language = 'any', $scope = 'time', $page = 0, $pageSize = false) {
 		$articleListUrl =  self::API_BASE . '/article/listByCategories/?ids=';
 		if (is_array($categoryIds)) {
 			foreach ($categoryIds as $categoryId) {
@@ -100,13 +101,10 @@ class GiegQuote {
 		}
 		
 		$articleListUrl .= GiegQuote::appendPage($page);
+		$articleListUrl .= GiegQuote::appendScope($scope);
+		$articleListUrl .= GiegQuote::appendLanguage($language);
+		$articleListUrl .= GiegQuote::appendPageSize($pageSize);
 		
-		if ($language != 'any' && ($language == 'de' || $language == 'en')) {
-			$articleListUrl .= '&language=' . $language;
-		}
-		if ($scope == 'time' || $scope == 'popular') {
-			$articleListUrl .= '&scope=' . $scope;
-		}
 		return GiegQuote::request($articleListUrl);
 	}
 	
@@ -132,9 +130,10 @@ class GiegQuote {
 		return GiegQuote::request($pageUrl);
 	}
 	
-	public function getPageList($page = 0) {
+	public function getPageList($page = 0, $pageSize = false) {
 		$pageListUrl = self::API_BASE . 'page/list/?';
 		$pageListUrl .= GiegQuote::appendPage($page);
+		$pageListUrl .= GiegQuote::appendPageSize($pageSize);
 		return GiegQuote::request($pageListUrl);
 	}
 	
@@ -160,15 +159,17 @@ class GiegQuote {
 		return GiegQuote::request($url);
 	}
 	
-	public function userListFollowers($username, $page = 0) {
+	public function userListFollowers($username, $page = 0, $pageSize = false) {
 		$userListFollowersUrl = self::API_BASE . 'user/listFollowers/?username=' . $username;
 		$userListFollowersUrl .= GiegQuote::appendPage($page);
+		$userListFollowersUrl .= GiegQuote::appendPageSize($pageSize);
 		return GiegQuote::request($userListFollowersUrl);
 	}
 	
-	public function userListFollowings($username, $page = 0) {
+	public function userListFollowings($username, $page = 0, $pageSize = false) {
 		$userListFollowingsUrl = self::API_BASE . 'user/listFollowings/?username=' . $username;
 		$userListFollowingsUrl .= GiegQuote::appendPage($page);
+		$userListFollowingsUrl .= GiegQuote::appendPageSize($pageSize);
 		return GiegQuote::request($userListFollowingsUrl);
 	}
 	
@@ -196,7 +197,6 @@ class GiegQuote {
 	*/
 	private function appendPage($page) {
 		$query = '&page=';
-		
 		if (is_array($page)) {
 			foreach ($pages as $id) {
 				$query .= $id . ',';
@@ -208,6 +208,27 @@ class GiegQuote {
 			return $query;
 		}
 		return;
+	}
+	
+	private static function appendScope($scope) {
+		if ($scope == 'time' || $scope == 'popular') {
+			return '&scope=' . $scope;
+		}
+		return false;
+	}
+	
+	private static function appendLanguage($language) {
+		if ($language != 'any' && ($language == 'de' || $language == 'en')) {
+			return '&language=' . $language;
+		}
+		return false;
+	}
+	
+	private static function appendPageSize($pageSize) {
+		if (is_numeric($pageSize) && ($pageSize > 0 || $pageSize <= 100)) {
+			return '&pageSize=' . $pageSize;
+		}
+		return false;
 	}
 	
 	private static function checkUrl($url) {
@@ -225,28 +246,25 @@ class GiegQuote {
 	private static $curl_options = array();
 	
 	public static function request($url) {
-	 	if (!function_exists('curl_init')) {
-	 		self::$response = json_decode(file_get_contents($url));
-	 	} else {
-	  	self::$curl = curl_init($url);
-	  	self::setOptions();
+		if (!function_exists('curl_init')) {
+			self::$response = json_decode(file_get_contents($url));
+		} else {
+			self::$curl = curl_init($url);
+			self::setOptions();
 	  	  
-	  	self::$response = json_decode(curl_exec(self::$curl));
-	  	curl_close(self::$curl);
-	  }
-	  
+			self::$response = json_decode(curl_exec(self::$curl));
+			curl_close(self::$curl);
+		}
 	 	if(empty(self::$response)) {
 			$e = new GiegQuoteException('Something went wrong with the last request to the Quote.fm API! URL: ' . $url);
 			throw $e;
 			
 		}
-		
 		if (isset(self::$response->code)) {
 			$e = new GiegQuoteException('Something went wrong with the last request to the Quote.fm API! Message: ' . self::$response->message . '. URL: ' . $url, self::$response->code);
 			throw $e;
 		}
-	    
-	  return self::$response;
+		return self::$response;
 	}
 	  
 	private function setOptions() {
@@ -256,8 +274,7 @@ class GiegQuote {
 				CURLOPT_USERAGENT => 'GiegQuote | Quote.FM API PHP Wrapper',
 				CURLOPT_TIMEOUT => 60,
 				CURLOPT_CONNECTTIMEOUT => 10
-		) + self::$curl_options);
-			          
+		) + self::$curl_options);          
 		// reset options
 		self::$curl_options = array();
 		}
