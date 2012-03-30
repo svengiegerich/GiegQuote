@@ -22,8 +22,3 @@ You can find a live demo of the 'Quote-Banner' example at [gieglabs.net/projects
 	
 ##Requirements
 The server has to support the 'JSON PHP extension' and all data should be encoded with UTF-8, cURL-Support is desired, but not required.
-
-<br />
-
-#### Copyright
-2012, Sven Giegerich, GiegLabs, www.gieglabs.net. Licensed under the MIT License. Redistributions of files must retain the above copyright notice.
