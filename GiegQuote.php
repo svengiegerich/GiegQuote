@@ -159,15 +159,17 @@ class GiegQuote {
 		return GiegQuote::request($url);
 	}
 	
-	public function userListFollowers($username, $page = 0, $pageSize = false) {
-		$userListFollowersUrl = self::API_BASE . 'user/listFollowers/?username=' . $username;
+	public function userListFollowers($user, $page = 0, $pageSize = false) {
+		$userListFollowersUrl = self::API_BASE . 'user/listFollowers/?' . GiegQuote::appendUser($user);
 		$userListFollowersUrl .= GiegQuote::appendPage($page);
 		$userListFollowersUrl .= GiegQuote::appendPageSize($pageSize);
 		return GiegQuote::request($userListFollowersUrl);
 	}
 	
-	public function userListFollowings($username, $page = 0, $pageSize = false) {
-		$userListFollowingsUrl = self::API_BASE . 'user/listFollowings/?username=' . $username;
+	
+	
+	public function userListFollowings($user, $page = 0, $pageSize = false) {
+		$userListFollowingsUrl = self::API_BASE . 'user/listFollowings/?' . GiegQuote::appendUser($user);
 		$userListFollowingsUrl .= GiegQuote::appendPage($page);
 		$userListFollowingsUrl .= GiegQuote::appendPageSize($pageSize);
 		return GiegQuote::request($userListFollowingsUrl);
@@ -208,6 +210,15 @@ class GiegQuote {
 			return $query;
 		}
 		return;
+	}
+	
+	private static function appendUser($user) {
+		if (is_numeric($user) && $user >= 0) {
+			return 'id=' . $user
+		} else if (is_string($user)) {
+			return 'username=' . $user;
+		}
+		return false;
 	}
 	
 	private static function appendScope($scope) {
