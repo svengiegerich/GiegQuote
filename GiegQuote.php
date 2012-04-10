@@ -214,7 +214,7 @@ class GiegQuote {
 	
 	private static function appendUser($user) {
 		if (is_numeric($user) && $user >= 0) {
-			return 'id=' . $user
+			return 'id=' . $user;
 		} else if (is_string($user)) {
 			return 'username=' . $user;
 		}
